@@ -26,6 +26,8 @@ To use any script in this project
 2. Manipulation
 	- Pitch Shift (without affecting Tempo)
 	- Change Tempo (without affecting Pitch)
+3. Compare
+	- RMSE of 2 Audio Files (Magnitude Spectrum Approach)
 
 ## License
 
