@@ -60,7 +60,7 @@ phase2,freqs_phase2,line_phase2 = plot.phase_spectrum(sig2, Fs = fs2, pad_to = p
 
 
 #1st Spectrum Plot
-plot.subplot(211)
+plot.subplot(311)
 y_max1 = max(spectrum_db1)+5
 y_min1 = max(min(spectrum_db1)-5,-100)
 plot.ylim([y_min1,y_max1])
@@ -73,7 +73,7 @@ plot.fill_between(freqs1,spectrum_db1,-110)
 plot.grid()
 
 #2nd Spectrum
-plot.subplot(212)
+plot.subplot(312)
 y_max2 = max(spectrum_db2)+5
 y_min2 = max(min(spectrum_db2)-5,-100)
 plot.ylim([y_min2,y_max2])
@@ -85,11 +85,13 @@ plot.ylabel('Magnitude')
 plot.fill_between(freqs2,spectrum_db2,-110)
 plot.grid()
 
-
-
-#Calculate RMSE
-rmse = math.sqrt(mean_squared_error(spectrum1, spectrum2))
-print('Root Mean Square Error (RMSE) = {}'.format(rmse))
+plot.subplot(313)
+diff = abs(spectrum1 - spectrum2)
+plot.fill_between(freqs1,diff)
+plot.grid()
+plot.title('Spectrum Error [Mean Error = {:4f}%]'.format(np.mean(diff)*100))
+plot.xlabel('Frequency (Hz)')
+plot.ylabel('Error')
 if args.o:
     plot.savefig(args.o, dpi = 360)
 elif not args.noplot:
