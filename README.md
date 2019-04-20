@@ -26,8 +26,9 @@ To use any script in this project
 2. Manipulation
 	- Pitch Shift (without affecting Tempo)
 	- Change Tempo (without affecting Pitch)
+	- Change Pitch of an audio signal for 5 different values together (Varun S S)
 3. Compare
-	- RMSE of 2 Audio Files (Magnitude Spectrum Approach)
+	- Find Mean error between Original and Synthesized File
 
 ## License
 
