@@ -8,13 +8,7 @@ Kannada Speech Synthesis is the final year project by students of the Department
 
 To use any script in this project
 
-1. Set your path to `WaveCL/bin`
-
-		export WAVECL=WaveCL/bin
-
-2. Run a script by executing
-
-		python3 $WAVECL/<File>.py -h
+		python3 <File>.py -h
 
 ## Available Wav Utilities
 
