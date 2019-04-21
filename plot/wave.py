@@ -25,7 +25,7 @@ args = parser.parse_args()
 [fs,y_axis] = util.WavRead(args.i)
 
 #Normalize the Amplitude
-if args.n:
+if args.norm:
     y_axis = y_axis/max(y_axis)
     
 x_axis = np.arange(0,len(y_axis)/fs,1/fs)
@@ -35,7 +35,7 @@ plot.plot(x_axis,y_axis)
 plot.grid()
 plot.title(args.i.split('/')[-1])
 plot.xlabel('Time (s)')
-if args.n:
+if args.norm:
     plot.ylabel('Amplitude (Normalized)')
 else:
     plot.ylabel('Amplitude')

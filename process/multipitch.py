@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(description = 'Compare pitch shifted wav files'
 
 parser.add_argument('-i', nargs = '?', required = True, type = str, help = 'Input File (.wav)')
 parser.add_argument('-o', nargs = '?', required = True, type = str, help = 'Output Folder')
-parser.add_argument('-isolate',default = False, action = 'store_true', help = 'Plot Only Spectrogram without .wav')
+parser.add_argument('-isolate',default = False, action = 'store_true', help = 'Plot Only Spectrum without .wav')
 args = parser.parse_args()
 
 pit = [-5,-2,+2,+5]

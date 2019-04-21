@@ -16,7 +16,6 @@ import Utilities as util
 import numpy as np
 import sys
 import math
-from sklearn.metrics import mean_squared_error
 
 def highestPowerof2(n): 
     p = int(math.log(n, 2)); 
@@ -26,7 +25,6 @@ parser = argparse.ArgumentParser(description = 'Compare 2 audio files for their 
 
 parser.add_argument('-i1', nargs = '?', required = True, type = str, help = 'Input File 1(.wav)[ORIGINAL]')
 parser.add_argument('-i2', nargs = '?', required = True, type = str, help = 'Input File 2(.wav)[ESTIMATE]')
-parser.add_argument('-noplot',default = False, action = 'store_true', help = 'Do Not Plot Figure')
 parser.add_argument('-o', nargs = '?', type = str, help = 'Output Image File (Optional)')
 args = parser.parse_args()
 
@@ -41,7 +39,7 @@ pad_to2 = highestPowerof2(len(sig2))
 pad_to = min(pad_to1,pad_to2)
 
 if fs1 != fs2:
-    print('Unable to find RMSE. (Sampling Freqs are different)')
+    print('Unable to Calculate. (Sampling Freqs are different)')
     sys.exit(0)
 
 #Signal 1   
@@ -60,7 +58,7 @@ phase2,freqs_phase2,line_phase2 = plot.phase_spectrum(sig2, Fs = fs2, pad_to = p
 
 
 #1st Spectrum Plot
-plot.subplot(311)
+plot.subplot(221)
 y_max1 = max(spectrum_db1)+5
 y_min1 = max(min(spectrum_db1)-5,-100)
 plot.ylim([y_min1,y_max1])
@@ -73,7 +71,7 @@ plot.fill_between(freqs1,spectrum_db1,-110)
 plot.grid()
 
 #2nd Spectrum
-plot.subplot(312)
+plot.subplot(222)
 y_max2 = max(spectrum_db2)+5
 y_min2 = max(min(spectrum_db2)-5,-100)
 plot.ylim([y_min2,y_max2])
@@ -85,16 +83,26 @@ plot.ylabel('Magnitude')
 plot.fill_between(freqs2,spectrum_db2,-110)
 plot.grid()
 
-plot.subplot(313)
+plot.subplot(223)
 diff = abs(spectrum1 - spectrum2)
 plot.fill_between(freqs1,diff)
 plot.grid()
 plot.title('Spectrum Error [Mean Error = {:4f}%]'.format(np.mean(diff)*100))
 plot.xlabel('Frequency (Hz)')
 plot.ylabel('Error')
+
+plot.subplot(224)
+diff_db = 20*np.log10(diff)
+plot.fill_between(freqs1,diff_db,-150)
+plot.ylim([-150,0])
+plot.grid()
+plot.title('Spectrum Error (in dB)')
+plot.xlabel('Frequency (Hz)')
+plot.ylabel('Error (in dB)')
+
 if args.o:
     plot.savefig(args.o, dpi = 360)
-elif not args.noplot:
+else:
     plot.tight_layout()
     plot.show()
 
