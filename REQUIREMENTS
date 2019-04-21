@@ -3,3 +3,4 @@ argparse
 numpy
 colorama
 scipy
+matplotlib
