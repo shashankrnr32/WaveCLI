@@ -23,6 +23,7 @@ To use any script in this project
 	- Change Pitch of an audio signal for 5 different values together (Varun S S)
 3. Compare
 	- Find Mean error between Original and Synthesized File
+	- Plot MFCC vectors of 2 audio files to compare
 
 ## License
 
