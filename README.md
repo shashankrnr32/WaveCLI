@@ -8,7 +8,7 @@ Kannada Speech Synthesis is the final year project by students of the Department
 
 To use any script in this project
 
-		python3 <File>.py -h
+	python3 <File>.py -h
 
 ## Available Wav Utilities
 
