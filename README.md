@@ -29,4 +29,8 @@ To use any script in this project
 
 Free MIT License held by [Shashank Sharma](mailto:shashankrnr32@gmail.com)
 
+## Credits
+
+1. Edinburgh Speech Tools
+2. SPTK
 
