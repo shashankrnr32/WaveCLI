@@ -25,6 +25,19 @@ To use any script in this project
 	- Find Mean error between Original and Synthesized File
 	- Plot MFCC vectors of 2 audio files to compare
 
+
+### est
+Audio Utilities using Edinburgh speech tools
+
+#### Usage
+	
+	python3 <File>.py -h
+
+#### Available scripts
+
+1. MFCC colormap
+2. Resample a Wave
+
 ## License
 
 Free MIT License held by [Shashank Sharma](mailto:shashankrnr32@gmail.com)
