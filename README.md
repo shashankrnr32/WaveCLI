@@ -10,7 +10,7 @@ To use any script in this project
 
 	python3 <File>.py -h
 
-## Available Wav Utilities
+## Available Wave Utilities
 
 1. Plotting
 	- Wave
@@ -25,17 +25,19 @@ To use any script in this project
 	- Find Mean error between Original and Synthesized File
 
 
-### est
-Audio Utilities using Edinburgh speech tools
+## Utilities using EST
+Audio Utilities using Edinburgh speech tools in the folder named `est`
 
-#### Usage
+### Usage
 	
 	python3 <File>.py -h
 
-#### Available scripts
+### Available scripts
 
-1. MFCC colormap
-2. Resample a Wave
+1. MFCC colormap(`mfcc.py`)
+2. Resample a Wave(`resample.py`)
+3. Dynamic Range Compression (`drc.py`)
+4. Print Information of a wave file (`wavinfo.py`)
 
 ## License
 

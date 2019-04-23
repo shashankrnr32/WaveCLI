@@ -23,6 +23,8 @@ def mfcc(input_file, frame_length = 0.02,
         pre_emphasis = 0.97):
     
     '''  
+    Calculate the MFCC vectors of a Wave file
+    
     Parameters :
         input_file : 
             .wav File [Required] \n
@@ -66,18 +68,20 @@ def mfcc(input_file, frame_length = 0.02,
 
 def resample(input_file, output_file = None, output_frequency = 44000, channel = 0):
     '''
+    Resample a Wave file
+    
     Parameters :
         input_file :
             Input .wav file
         output_file :
             Output .wav file
-        output_frequency = 44000 :
+        output_frequency = `44000` :
             Output frequency in Hz
-        channel = 0 :
+        channel = `0` :
             Select Channel
             
     Returns :
-        `True` if conversion is successfull
+        `True` if conversion is successfull\n
     
     Raises :
         IOError :
@@ -92,3 +96,64 @@ def resample(input_file, output_file = None, output_frequency = 44000, channel =
         raise IOError('Wave File Not Found ({})'.format(input_file))
     
     return True
+
+def drc(input_file, output_file, factor = 50, scale = 0.65):
+    '''
+    Dynamic range compression of a Wave file
+    
+    Parameters :
+        input_file :
+            Input .wav file
+        output_file :
+            Output .wav file
+        factor = `50` :
+            Dynamic Range compression factor
+        scale = `0.65` :
+            The dynamically compressed wave is scaled by this factor in amplitude
+
+    Returns :
+        `True` if compression was successfull
+        
+    Raises :
+        IOError :
+            If Input file is not found
+    '''
+    command = '{0}/bin/ch_wave {1} -compress {2} -scaleN {3} -o {4}'.format(
+            ESTDIR, input_file, float(factor), scale, output_file)
+    std_out = subprocess.Popen(command, stdout = subprocess.PIPE, shell = True, stderr = subprocess.PIPE)
+    output, error = std_out.communicate()
+
+    #If File Not Found
+    error = error.decode()
+    if 'Cannot open file' in error:
+        raise IOError('Wave File Not Found ({})'.format(input_file))
+
+    return True
+
+def info(input_file):
+    '''
+    Print Information about a wave file
+    
+    Parameters :
+        input_file :
+            Input .wav file
+            
+    Returns :
+        None
+    
+    Raises :
+        IOError :
+            If Input File is not found
+    '''
+    #Execute ch_wave script with -info arg
+    command = '{0}/bin/ch_wave {1} -info'.format(ESTDIR, input_file)
+    std_out = subprocess.Popen(command, stdout = subprocess.PIPE, shell = True, stderr = subprocess.PIPE)
+    output, error = std_out.communicate()
+    
+    #If File Not Found
+    error = error.decode()
+    if 'Cannot open file' in error:
+        raise IOError('Wave File Not Found ({})'.format(input_file))
+    
+    print('File: {}'.format(input_file))
+    print(output.decode().strip())
