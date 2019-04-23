@@ -157,3 +157,43 @@ def info(input_file):
     
     print('File: {}'.format(input_file))
     print(output.decode().strip())
+
+import xml.etree.ElementTree as et
+def utt2xml(input_file, output_file = None):
+    '''
+    Convert Utterance File to XML
+    
+    Parameters:
+        input_file:
+            .utt Utterance File
+        output_file = None:
+            .xml XML file (Prints to stdout if no file)
+    
+    Returns :
+        XML object if output_file = None
+        
+    Raises :
+        IOError :
+            Utterance File not found
+    '''
+    if not output_file:
+        output_file = ''
+    else:
+        output_file = '-o ' + output_file
+    
+    command = '{0}/bin/ch_utt {1} -otype genxml {2}'.format(ESTDIR, input_file, output_file).strip()
+    
+    std_out = subprocess.Popen(command, stdout = subprocess.PIPE, shell = True, stderr = subprocess.PIPE)
+    output, error = std_out.communicate()
+    
+    #If File Not Found
+    error = error.decode()
+    if 'Cannot open file' in error:
+        raise IOError('Utterance File Not Found ({})'.format(input_file))
+    
+    output = output.decode()
+    if output:
+        print(output)
+        return et.fromstring(output)
+        
+    
