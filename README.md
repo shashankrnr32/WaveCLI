@@ -39,6 +39,7 @@ Audio Utilities using Edinburgh speech tools in the folder named `est`
 3. Dynamic Range Compression (`drc.py`)
 4. Print Information of a wave file (`wavinfo.py`)
 5. Convert Utterance files to XML (`utt2xml.py`)
+6. Clip Audio(`clip.py`)
 
 ## License
 
