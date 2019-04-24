@@ -41,7 +41,6 @@ else:
     plot.ylabel('Amplitude')
 
 plot.tight_layout()
-
 if args.o:
     plot.savefig(args.o, dpi = 360)
 else:

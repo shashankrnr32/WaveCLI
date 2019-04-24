@@ -73,8 +73,8 @@ def resample(input_file, output_file = None, output_frequency = 44000, channel =
     Parameters :
         input_file :
             Input .wav file
-        output_file :
-            Output .wav file
+        output_file = None:
+            Output .wav file. Rewrites input file if not provided
         output_frequency = `44000` :
             Output frequency in Hz
         channel = `0` :
@@ -87,6 +87,9 @@ def resample(input_file, output_file = None, output_frequency = 44000, channel =
         IOError :
             If Input File is not found
     '''
+    if not output_file:
+        output_file = input_file
+    
     command = '{0}/bin/ch_wave {1} -o {2} -F {3}'.format(ESTDIR, input_file, output_file, int(output_frequency))
     std_out = subprocess.Popen(command, stdout = subprocess.PIPE, shell = True, stderr = subprocess.PIPE)
     output, error = std_out.communicate()
@@ -105,7 +108,7 @@ def drc(input_file, output_file, factor = 50, scale = 0.65):
         input_file :
             Input .wav file
         output_file :
-            Output .wav file
+            Output .wav file. Rewrites input file if not provided
         factor = `50` :
             Dynamic Range compression factor
         scale = `0.65` :
@@ -118,6 +121,9 @@ def drc(input_file, output_file, factor = 50, scale = 0.65):
         IOError :
             If Input file is not found
     '''
+    if not output_file:
+        output_file = input_file
+    
     command = '{0}/bin/ch_wave {1} -compress {2} -scaleN {3} -o {4}'.format(
             ESTDIR, input_file, float(factor), scale, output_file)
     std_out = subprocess.Popen(command, stdout = subprocess.PIPE, shell = True, stderr = subprocess.PIPE)
@@ -139,7 +145,7 @@ def info(input_file):
             Input .wav file
             
     Returns :
-        None
+        `None`
     
     Raises :
         IOError :
@@ -166,7 +172,7 @@ def utt2xml(input_file, output_file = None):
     Parameters:
         input_file:
             .utt Utterance File
-        output_file = None:
+        output_file = `None`:
             .xml XML file (Prints to stdout if no file)
     
     Returns :
@@ -195,5 +201,46 @@ def utt2xml(input_file, output_file = None):
     if output:
         print(output)
         return et.fromstring(output)
-        
+
+def clip_audio(input_file, output_file = None, start = 0, end = -1) :
+    '''
+    Clip Audio and save it as a new file. Passing Only Input and Output file copies the file.
     
+    Parameters :
+        input_file :
+            Input .wav file
+        output_file = `None` :
+            Output .wav file. Rewrites input if not provided
+        start = `0` :
+            Starting Point of the audio (in seconds)
+        end = `-1` :
+            Ending Point of the audio  (in seconds) . `-1` Represents complete audio
+    
+    Returns:
+        `True` if clipping is successfull
+        
+    Raises :
+        IOError :
+            If input file is not found
+            
+        IndexError :
+            If Start or End is out of duration range
+    '''     
+    if not output_file:
+        output_file = input_file
+    
+    command = '{0}/bin/ch_wave {1} -start {2} -end {3} -o {4}'.format(
+            ESTDIR, input_file, start, end, output_file)     
+    
+    std_out = subprocess.Popen(command, stdout = subprocess.PIPE, shell = True, stderr = subprocess.PIPE)
+    output, error = std_out.communicate()
+    
+    #If File Not Found
+    error = error.decode()
+    if 'Cannot open file' in error:
+        raise IOError('Utterance File Not Found ({})'.format(input_file))
+    
+    if 'Tried to access' in error:
+        raise IndexError(error)
+    
+    return True
