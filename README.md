@@ -1,4 +1,4 @@
-# WaveCL
+# WaveCLI
 
 WaveCL or Wave Command Line is a command line interface tool to manipulate, plot and analyze .wav files. This was developed by [Shashank Sharma](mailto:shashankrnr32@gmail.com) as a part of `Kannada Speech Synthesis` Project. 
 
@@ -26,7 +26,7 @@ To use any script in this project
 
 
 ## Utilities using EST
-Audio Utilities using Edinburgh speech tools in the folder named `est`
+Audio Utilities using Edinburgh speech tools in the folder named `est`. Also contains python wrapper for EST
 
 ### Usage
 	
