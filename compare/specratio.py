@@ -83,22 +83,27 @@ plot.ylabel('Magnitude')
 plot.fill_between(freqs2,spectrum_db2,-110)
 plot.grid()
 
-plot.subplot(223)
-diff = abs(spectrum1 - spectrum2)
-plot.fill_between(freqs1,diff)
-plot.grid()
-plot.title('Spectrum Error [Mean Error = {:4f}%]'.format(np.mean(diff)*100))
-plot.xlabel('Frequency (Hz)')
-plot.ylabel('Error')
 
-plot.subplot(224)
-diff_db = 20*np.log10(diff)
-plot.fill_between(freqs1,diff_db,-150)
-plot.ylim([-75,0])
+local_size = len(freqs2)//1
+#For good comparison local ratio line must not vary very much
+
+ratio = np.divide(spectrum_db1, spectrum_db2)
+ratio_line = list()
+plot.subplot(212)
+
+for i in range(len(freqs1)//local_size):
+    temp = ratio[i*local_size : i*local_size + local_size]
+    temp_freqs = freqs1[i*local_size : i*local_size + local_size]
+    uniq_line = list(np.poly1d(np.polyfit(temp_freqs, temp, 1))(np.unique(temp_freqs)))
+    ratio_line = ratio_line + uniq_line
+
+slope = (ratio_line[-1] - ratio_line[0])/(freqs1[-1] - freqs1[0])
+plot.plot(freqs1, ratio_line)
+plot.title('Best Fit Line of comparison (Slope = {:.5})'.format(slope))
+plot.xlabel('Frquency (Hz)')
+plot.ylabel('Ratio (Best Fit)')
+plot.ylim([0,1])
 plot.grid()
-plot.title('Spectrum Error (in dB)')
-plot.xlabel('Frequency (Hz)')
-plot.ylabel('Error (in dB)')
 
 
 if args.o:
